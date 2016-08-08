@@ -27,15 +27,16 @@ def cli(): pass
 @click.argument('cmd')
 @click.option('--echo/--no-echo', default=True)
 @click.option('--stop/--no-stop', default=True, help='on error')
-def call(cmd, echo, stop):
+@click.option('--shell/--no-shell', default=True)
+def call(cmd, echo, stop, shell):
     '''Run cmd'''
-    return _call(cmd, echo, stop)
+    return _call(cmd, echo, stop, shell)
 
-def _call(cmd, echo=True, stop=True):
+def _call(cmd, echo=True, stop=True, shell=True):
     if echo:
         print_ok(cmd)
     try:
-        code = subprocess_call(cmd, shell=True)
+        code = subprocess_call(cmd, shell=shell)
     except OSError as e:
         code = -1
         print_er(e)
